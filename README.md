@@ -1,5 +1,7 @@
 # RPDehazingNet
-solution for NTIRE2018 Image Dehazing Challenge (19.3db for Indoor and 21.3db for Outdoor)
+Our solution for NTIRE2018 Image Dehazing Challenge (20.549db for Indoor and 20.230db for Outdoor), final results could be refer at [NTIRE2018](http://www.kfm.cat/pdf/ntire-2018-dehazing-challenge-report.pdf)
+
+![](docs/overview.png)
 
 ## Preparation
 Using data_argument to enchance the datasets, it will produce below datasets
