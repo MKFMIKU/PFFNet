@@ -18,14 +18,15 @@ from utils import save_checkpoint
 
 # Training settings
 parser = argparse.ArgumentParser(description="PyTorch DeepDehazing")
-parser.add_argument("--name", type=str, help="path to save train log")
+parser.add_argument("--tag", type=str, help="tag for this training")
+parser.add_argument("--rb", type=int, default=18, help="number of residual blocks")
 parser.add_argument("--train", default="../datasets/IndoorTrain/", type=str,
                     help="path to load train datasets(default: none)")
 parser.add_argument("--test", default="../datasets/IndoorTest/", type=str,
                     help="path to load test datasets(default: none)")
 parser.add_argument("--batchSize", type=int, default=64, help="training batch size")
 parser.add_argument("--nEpochs", type=int, default=300, help="number of epochs to train for")
-parser.add_argument("--lr", type=float, default=1e-3, help="Learning Rate. Default=1e-4")
+parser.add_argument("--lr", type=float, default=0.0001, help="Learning Rate. Default=1e-4")
 parser.add_argument("--step", type=int, default=2000, help="step to test the model performance. Default=2000")
 parser.add_argument("--cuda", action="store_true", help="Use cuda?")
 parser.add_argument("--gpus", type=int, default=4, help="nums of gpu to use")
@@ -34,16 +35,18 @@ parser.add_argument("--start-epoch", default=1, type=int, help="Manual epoch num
 parser.add_argument("--threads", type=int, default=8, help="Number of threads for data loader to use, Default: 1")
 parser.add_argument("--momentum", default=0.9, type=float, help="Momentum, Default: 0.9")
 parser.add_argument("--pretrained", default="", type=str, help="path to pretrained model (default: none)")
-parser.add_argument("--checkpoints", default="deepdehaze/", type=str, help="path to save networks")
 parser.add_argument("--report", default=False, type=bool, help="report to wechat")
 
 
 def main():
-    global opt, logger, model, criterion
+    global opt, name, logger, model, criterion
     opt = parser.parse_args()
     print(opt)
 
-    logger = SummaryWriter(opt.name)
+    # Tag_ResidualBlocks_BatchSize
+    name = "%s_%d_%d" % (opt.tag, opt.rb, opt.batchSize)
+
+    logger = SummaryWriter("runs/" + name)
 
     cuda = opt.cuda
     if cuda and not torch.cuda.is_available():
@@ -72,7 +75,7 @@ def main():
                                     shuffle=True)
 
     print("==========> Building model")
-    model = Net()
+    model = Net(opt.rb)
     criterion = nn.MSELoss(size_average=True)
 
     print(model)
@@ -110,7 +113,8 @@ def main():
     print("==========> Training")
     for epoch in range(opt.start_epoch, opt.nEpochs + 1):
         train(training_data_loader, indoor_test_loader, optimizer, epoch)
-
+        save_checkpoint(model, epoch, name)
+        # test(indoor_test_loader, epoch)
 
 def train(training_data_loader, indoor_test_loader, optimizer, epoch):
     print("epoch =", epoch, "lr =", optimizer.param_groups[0]["lr"])
@@ -156,10 +160,6 @@ def train(training_data_loader, indoor_test_loader, optimizer, epoch):
             logger.add_image('label_temp', label_temp, steps)
             logger.add_image('output_temp', output_temp, steps)
 
-        if iteration % opt.step == 0:
-            save_checkpoint(model, steps // opt.step, opt.checkpoints)
-            test(indoor_test_loader, steps // opt.step)
-
 
 def test(test_data_loader, epoch):
     psnrs = []
@@ -177,7 +177,9 @@ def test(test_data_loader, epoch):
             data = data.cpu()
             label = label.cpu()
 
-        output = torch.clamp(model(data), 0., 1.)
+        with torch.no_grad():
+            output = model(data)
+        output = torch.clamp(output, 0., 1.)
         mse = nn.MSELoss()(output, label)
         mses.append(mse.data[0])
         psnr = 10 * np.log10(1.0 / mse.data[0])

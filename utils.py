@@ -36,14 +36,17 @@ def load_all_image(path):
 
 
 def save_checkpoint(model, epoch, model_folder):
-  model_out_path = model_folder + "{}.pth".format(epoch)
+  model_out_path = "checkpoints/%s/%d.pth" % (model_folder, epoch)
 
   state_dict = model.module.state_dict()
   for key in state_dict.keys():
     state_dict[key] = state_dict[key].cpu()
 
-  if not os.path.exists(model_folder):
-    os.makedirs(model_folder)
+  if not os.path.exists("checkpoints"):
+    os.makedirs("checkpoints")
+
+  if not os.path.exists("checkpoints/" + model_folder):
+    os.makedirs("checkpoints/" + model_folder)
 
   torch.save({
     'epoch': epoch,

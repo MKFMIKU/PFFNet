@@ -19,7 +19,6 @@ for arg in vars(args):
     print('[%s] = ' % arg, getattr(args, arg))
 
 fix_size = int(args.size)
-scale = float(args.scale)
 splits = os.listdir(args.fold_A)
 folder = args.fold_AB
 
@@ -33,7 +32,7 @@ def arguments(sp):
     print("Process %s" % sp)
     count_im = 0
     img_fold_A = os.path.join(args.fold_A, sp)
-    img_fold_B = os.path.join(args.fold_B, sp)
+    img_fold_B = os.path.join(args.fold_B, '_'.join([sp.split('_')[0], sp.split('_')[1], 'GT' + '.' + sp.split('_')[-1].split('.')[-1]]))
 
     for flip in [0, 1, 2]:
         for degree in [0, 1, 2, 3]:
@@ -61,8 +60,8 @@ def arguments(sp):
                         patch_A = im_A[x:x + fix_size, y:y + fix_size]
                         patch_B = im_B[x:x + fix_size, y:y + fix_size]
 
-                        imsave("%s/data/%d_%s.png" % (folder, count_im, sp), patch_A)
-                        imsave("%s/label/%d_%s.png" % (folder, count_im, sp), patch_B)
+                        imsave("%s/data/%d_%s.png" % (folder, count_im, '_'.join(sp.split('_')[:-1])), patch_A)
+                        imsave("%s/label/%d_%s.png" % (folder, count_im, '_'.join(sp.split('_')[:-1])), patch_B)
                         count_im += 1
     print("Process %s for %d" % (sp, count_im))
 

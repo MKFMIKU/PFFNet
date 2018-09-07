@@ -19,9 +19,6 @@ class DatasetFromFolder(data.Dataset):
         self.transform = transform
 
     def __getitem__(self, index):
-        if basename(self.data_filenames[index]) != basename(self.label_filenames[index]):
-            print(self.data_filenames[index], self.label_filenames[index])
-            raise ValueError('Name not equal')
         data = Image.open(self.data_filenames[index])
         label = Image.open(self.label_filenames[index])
 

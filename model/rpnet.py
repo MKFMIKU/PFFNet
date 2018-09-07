@@ -14,7 +14,7 @@ class MeanShift(nn.Conv2d):
             params.requires_grad = False
 
 class Net(nn.Module):
-    def __init__(self):
+    def __init__(self, res_blocks=18):
         super(Net, self).__init__()
 
         rgb_mean = (0.5204, 0.5167, 0.5129)
@@ -29,25 +29,8 @@ class Net(nn.Module):
 
 
         self.dehaze = nn.Sequential()
-        self.dehaze.add_module('res1', ResidualBlock(256))
-        self.dehaze.add_module('res2', ResidualBlock(256))
-        self.dehaze.add_module('res3', ResidualBlock(256))
-        self.dehaze.add_module('res4', ResidualBlock(256))
-        self.dehaze.add_module('res5', ResidualBlock(256))
-        self.dehaze.add_module('res6', ResidualBlock(256))
-        self.dehaze.add_module('res7', ResidualBlock(256))
-        self.dehaze.add_module('res8', ResidualBlock(256))
-        self.dehaze.add_module('res9', ResidualBlock(256))
-        self.dehaze.add_module('res10', ResidualBlock(256))
-        self.dehaze.add_module('res11', ResidualBlock(256))
-        self.dehaze.add_module('res12', ResidualBlock(256))
-        self.dehaze.add_module('res13', ResidualBlock(256))
-        self.dehaze.add_module('res14', ResidualBlock(256))
-        self.dehaze.add_module('res15', ResidualBlock(256))
-        self.dehaze.add_module('res16', ResidualBlock(256))
-        self.dehaze.add_module('res17', ResidualBlock(256))
-        self.dehaze.add_module('res18', ResidualBlock(256))
-
+        for i in range(0, res_blocks):
+            self.dehaze.add_module('res%d' % i, ResidualBlock(256))
 
         self.convd16x = UpsampleConvLayer(256, 128, kernel_size=3, stride=2)
         self.convd8x = UpsampleConvLayer(128, 64, kernel_size=3, stride=2)
