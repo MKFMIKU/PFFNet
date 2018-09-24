@@ -1,5 +1,5 @@
 # RPDehazingNet
-Our solution for NTIRE2018 Image Dehazing Challenge (20.549db for Indoor and 20.230db for Outdoor), final results could be refer at [NTIRE2018](http://www.kfm.cat/pdf/ntire-2018-dehazing-challenge-report.pdf)
+Our solution for NTIRE2018 Image Dehazing Challenge (20.549db for Indoor and 20.230db for Outdoor), final results could be refer at [NTIRE2018](http://www.kfm.cat/pdf/ntire-2018-dehazing-challenge-report.pdf). Futher version is accepted by ACCV2018.
 
 ![](docs/overview.png)
 
@@ -22,4 +22,16 @@ python train.py --cuda --gpus=4 --train=/path/to/train --test=/path/to/test --lr
 ## Test
 ```bash
 python test.py --cuda --checkpoints=/path/to/checkpoint --test=/path/to/testimages
+```
+
+## Citation
+If you use the code in this repository, please cite our paper:
+
+```
+@inproceedings{mei2018pffn,
+     author = {Kangfu Mei, Aiwen Jiang, Juncheng Li and Mingwen Wang},
+     title = {Progressive Feature Fusion Network for Realistic Image Dehazing},
+     booktitle = {Asian Conference on Computer Vision (ACCV)},
+     year = {2018}
+}
 ```
