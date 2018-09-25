@@ -28,10 +28,10 @@ python test.py --cuda --checkpoints=/path/to/checkpoint --test=/path/to/testimag
 If you use the code in this repository, please cite our paper:
 
 ```
-@inproceedings{mei2018pffn,
-     author = {Kangfu Mei, Aiwen Jiang, Juncheng Li and Mingwen Wang},
-     title = {Progressive Feature Fusion Network for Realistic Image Dehazing},
-     booktitle = {Asian Conference on Computer Vision (ACCV)},
-     year = {2018}
+@inproceedings{mei2017pffn,
+  title={Progressive Feature Fusion Network for Realistic Image Dehazing},
+  author={Mei, Kangfu and Jiang, Aiwen and Li, Juncheng and  Wang, Mingwen},
+  booktitle={Asian Conference on Computer Vision (ACCV)},
+  year={2018}
 }
 ```
