@@ -1,5 +1,5 @@
 # PFFNet
-Our solution for NTIRE2018 Image Dehazing Challenge (20.549db for Indoor and 20.230db for Outdoor), final results could be refer at [NTIRE2018](http://www.kfm.cat/pdf/ntire-2018-dehazing-challenge-report.pdf). Futher version is accepted by ACCV2018 https://arxiv.org/pdf/1810.02283.pdf.
+Our solution for NTIRE2018 Image Dehazing Challenge (20.549db for Indoor and 20.230db for Outdoor), final results could be refer at [NTIRE2018](http://www.kfm.cat/pdf/ntire-2018-dehazing-challenge-report.pdf). Futher version is accepted by ACCV2018 https://arxiv.org/pdf/1810.02283.pdf. All pretrained models can be found at [Here](https://drive.google.com/open?id=198ZP8yV3gl49IdSZHEz9SMmTvppt_a9v)
 
 ![](docs/overview.png)
 
