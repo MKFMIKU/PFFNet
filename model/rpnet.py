@@ -29,7 +29,7 @@ class Net(nn.Module):
 
 
         self.dehaze = nn.Sequential()
-        for i in range(0, res_blocks):
+        for i in range(1, res_blocks):
             self.dehaze.add_module('res%d' % i, ResidualBlock(256))
 
         self.convd16x = UpsampleConvLayer(256, 128, kernel_size=3, stride=2)
