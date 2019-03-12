@@ -11,7 +11,7 @@ from torchvision.transforms import ToTensor, ToPILImage, Normalize, Resize
 from model.rpnet import Net
 
 parser = argparse.ArgumentParser(description="PyTorch DeepDehazing")
-parser.add_argument("--rb", type=int, default=18, help="number of residual blocks")
+parser.add_argument("--rb", type=int, default=13, help="number of residual blocks")
 parser.add_argument("--checkpoint", type=str, help="path to load model checkpoint")
 parser.add_argument("--test", type=str, help="path to load test images")
 
